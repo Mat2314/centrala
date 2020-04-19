@@ -2,10 +2,14 @@
 #include <string>
 #include "jednostka.h"
 #include "zdarzenie.h"
+#include "centrala.h"
 
 using namespace std;
 
 int main() {
-    Zdarzenie *z = new Zdarzenie();
+    Centrala *centrala = new Centrala();
+    while(1) {
+        centrala->pokazMenu();
+    }
     return 0;
 }
