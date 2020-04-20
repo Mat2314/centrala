@@ -1,0 +1,33 @@
+
+---NOWE ZDARZENIE---
+Mon Apr 20 22:04:48 2020
+Zarejestrowano pożarJednostki biorące udział:
+
+---
+---NOWE ZDARZENIE---
+Mon Apr 20 22:09:57 2020
+Zarejestrowano utonięcie
+Jednostki biorące udział:
+
+---
+---NOWE ZDARZENIE---
+Mon Apr 20 22:10:59 2020
+Zarejestrowano utonięcie
+Jednostki biorące udział:
+
+---
+---NOWE ZDARZENIE---
+Mon Apr 20 22:12:02 2020
+Zarejestrowano utonięcie
+Jednostki biorące udział:
+WOPR (Poziom: 1)
+
+---
+---NOWE ZDARZENIE---
+Mon Apr 20 22:12:43 2020
+Zarejestrowano utonięcie
+Jednostki biorące udział:
+WOPR (Poziom: 1)
+Pogotowie (Poziom: 1)
+
+---

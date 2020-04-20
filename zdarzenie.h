@@ -1,6 +1,8 @@
 #ifndef zdarzenie_h
 #define zdarzenie_h
 #include <string>
+#include <vector>
+#include "jednostka.h"
 
 using namespace std;
 
@@ -14,6 +16,7 @@ private:
     // 4 - kradzież
     int dystans; // Dystans od centrali (wyrażony w czasie)
     string opis; // Słowny opis zdarzenia
+    vector<Jednostka> jednostki; // Jednostki biorące udział przy tym zdarzeniu
 public:
     Zdarzenie() {}
     Zdarzenie(int t);
@@ -22,6 +25,8 @@ public:
     int get_distance();
     void pokazOpis();
     string get_opis();
+    void dodajJednostke(Jednostka J);
+    string wypiszJednostki();
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "zdarzenie.h"
+#include "jednostka.h"
 
 using namespace std;
 
@@ -36,4 +37,18 @@ void Zdarzenie::pokazOpis() {
 
 string Zdarzenie::get_opis() {
     return opis;
+}
+
+// Funkcja przypisuje jednostkę do zdarzenia
+void Zdarzenie::dodajJednostke(Jednostka J) {
+    jednostki.push_back(J);
+}
+
+// Funkcja wypisuje jednostki w odpowiednim formacie do pliku
+string Zdarzenie::wypiszJednostki() {
+    string result = "";
+    for(int i=0; i<jednostki.size(); i++) {
+        result += jednostki.at(i).get_typ_jednostki() + " (Poziom: " + to_string(jednostki.at(i).get_poziom()) + ")\n";
+    }
+    return result;
 }
