@@ -12,16 +12,18 @@ private:
     int czas_odpoczynku; // Czas odpoczynku po akcji dla każdej jednostki
     Zdarzenie historia[20]; // Historia 20 ostatnio zakończonych zdarzeń
     vector<Zdarzenie> zdarzenia;// Aktualne zdarzenia
-    Jednostka jednostki[10]; // Jednostki w centrali
+    vector<Jednostka> jednostki; // Jednostki w centrali
 public:
-    Centrala() {}
+    Centrala(); 
 
     void pokazHistorie();
-    void przydziel_jednostke_do_zdarzenia(Jednostka jednostka, Zdarzenie zdarzenie);
+    void panelPrzydzialuJednostek(Zdarzenie &Z);
+    void przydziel_jednostke_do_zdarzenia(Jednostka jednostka, Zdarzenie &zdarzenie);
     void odbior_jednostki_po_zdarzeniu(Jednostka jednostka);
     void pokazMenu();
     void dodajZdarzenie();
     void pokazAktualneZdarzenia();
+    void pokazDostepneJednostki();
 
 };
 
