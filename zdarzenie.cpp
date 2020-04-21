@@ -66,3 +66,27 @@ string Zdarzenie::wypiszJednostki() {
     }
     return result;
 }
+
+// Zwróć wektor z danymi id jednostek
+vector<int> Zdarzenie::get_id_jednostek(){
+    vector<int> zbior_id;
+
+    for(int i=0; i<jednostki.size(); i++) {
+        int id_jednostki = jednostki.at(i).get_id();
+        zbior_id.push_back(id_jednostki);
+    }
+
+    return zbior_id;
+
+}
+
+string Zdarzenie::zwrocWierszBazyDanych() {
+    string result = "";
+    
+    result += to_string(get_id()) + ";" + to_string(get_typ_zdarzenia()) + ";";
+    for(int i=0; i<jednostki.size(); i++){
+        result += to_string(jednostki.at(i).get_id()) + ";";
+    }
+    
+    return result;
+}

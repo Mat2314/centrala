@@ -25,6 +25,9 @@ public:
     void pokazAktualneZdarzenia();
     void pokazDostepneJednostki();
     void wyswietlOdbiorJednostek();
+    void wczytajAktywneZdarzenia();
+    void zapiszZdarzenieDoPliku(Zdarzenie &Z);
+    void usunAktywneZdarzenieZBazy(Zdarzenie &Z);
 
 };
 

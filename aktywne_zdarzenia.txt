@@ -1,0 +1,1 @@
+id_zdarzenia;typ_zdarzenia;id_jednostek_oddzielone_srednikami

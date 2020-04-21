@@ -20,40 +20,40 @@ string czas() {
 Centrala::Centrala() {
     // Zainicjuj jednostki w centrali
     // WOPR
-    Jednostka wopr1(1, "WOPR", 1, 0); // lekka
-    Jednostka wopr2(2, "WOPR", 1, 0); // lekka 
-    Jednostka wopr3(3, "WOPR", 2, 0); // Ciezka
-    Jednostka wopr4(4, "WOPR", 2, 0); // Ciezka
+    Jednostka wopr1(0, "WOPR", 1, 0); // lekka
+    Jednostka wopr2(1, "WOPR", 1, 0); // lekka 
+    Jednostka wopr3(2, "WOPR", 2, 0); // Ciezka
+    Jednostka wopr4(3, "WOPR", 2, 0); // Ciezka
     jednostki.push_back(wopr1);
     jednostki.push_back(wopr2);
     jednostki.push_back(wopr3);
     jednostki.push_back(wopr4);
 
     // Policja
-    Jednostka policja1(5, "Policja", 1, 0); 
-    Jednostka policja2(6, "Policja", 1, 0); 
-    Jednostka policja3(7, "Policja", 2, 0); 
-    Jednostka policja4(8, "Policja", 2, 0); 
+    Jednostka policja1(4, "Policja", 1, 0); 
+    Jednostka policja2(5, "Policja", 1, 0); 
+    Jednostka policja3(6, "Policja", 2, 0); 
+    Jednostka policja4(7, "Policja", 2, 0); 
     jednostki.push_back(policja1);
     jednostki.push_back(policja2);
     jednostki.push_back(policja3);
     jednostki.push_back(policja4);
 
     // Straż pożarna
-    Jednostka straz1(9, "Straz", 1, 0); 
-    Jednostka straz2(10, "Straz", 1, 0); 
-    Jednostka straz3(11, "Straz", 2, 0); 
-    Jednostka straz4(12, "Straz", 2, 0); 
+    Jednostka straz1(8, "Straz", 1, 0); 
+    Jednostka straz2(9, "Straz", 1, 0); 
+    Jednostka straz3(10, "Straz", 2, 0); 
+    Jednostka straz4(11, "Straz", 2, 0); 
     jednostki.push_back(straz1);
     jednostki.push_back(straz2);
     jednostki.push_back(straz3);
     jednostki.push_back(straz4);
 
     // Pogotowie
-    Jednostka pogotowie1(13, "Pogotowie", 1, 0); 
-    Jednostka pogotowie2(14, "Pogotowie", 1, 0); 
-    Jednostka pogotowie3(15, "Pogotowie", 2, 0); 
-    Jednostka pogotowie4(16, "Pogotowie", 2, 0); 
+    Jednostka pogotowie1(12, "Pogotowie", 1, 0); 
+    Jednostka pogotowie2(13, "Pogotowie", 1, 0); 
+    Jednostka pogotowie3(14, "Pogotowie", 2, 0); 
+    Jednostka pogotowie4(15, "Pogotowie", 2, 0); 
     jednostki.push_back(pogotowie1);
     jednostki.push_back(pogotowie1);
     jednostki.push_back(pogotowie3);
@@ -85,6 +85,8 @@ void Centrala::panelPrzydzialuJednostek(Zdarzenie &Z) {
                 panelPrzydzialuJednostek(Z);
             } else {
                 // Zakończ przydział dla tego wydarzenia
+                // Zapisz dane do pliku
+                zapiszZdarzenieDoPliku(Z);
             }
         } else {
             cout << "Tej jednostki nie ma w bazie!" << endl;
@@ -185,7 +187,7 @@ void Centrala::odbior_jednostek_po_zdarzeniu(Zdarzenie &Z) {
             }
         }
     }
-
+    usunAktywneZdarzenieZBazy(Z);
 }
 
 // Funkcja dodająca zdarzenie w centrali
@@ -257,4 +259,52 @@ void Centrala::pokazAktualneZdarzenia() {
         cout << "Jednostki przypisane do wydarzenia: " << endl;
         cout << zdarzenia.at(i).wypiszJednostki() << endl;
     }
+}
+
+// Funkcja zapisuje aktywne zdarzenie w pliku by móc je potem wczytać
+void Centrala::zapiszZdarzenieDoPliku(Zdarzenie &Z) {
+    vector<int> id_jednostek;
+
+    // Zapisz zdarzenie w pliku zdarzeń aktywnych
+    fstream myfile("aktywne_zdarzenia.txt", fstream::app);
+    if (myfile.is_open()) {
+        myfile << to_string(Z.get_id()) << ";" << to_string(Z.get_typ_zdarzenia()) << ";";
+        
+        // Dopisz dane jednostek do pliku
+        id_jednostek = Z.get_id_jednostek(); 
+        for(int i=0; i<id_jednostek.size(); i++){
+            myfile << id_jednostek.at(i) << ";";
+        }
+
+        myfile << "\n";
+        
+    } else {
+        cout << "Unable to open file";
+    }
+}
+
+void Centrala::usunAktywneZdarzenieZBazy(Zdarzenie &Z) {
+    string zdarzenie = Z.zwrocWierszBazyDanych();
+
+    string line;
+    ifstream fin("aktywne_zdarzenia.txt");
+    ofstream temp("temp.txt");
+
+    while(getline(fin, line)) {
+        if(line != zdarzenie) {
+            temp << line << endl;
+        }
+    }
+
+    fin.close();
+    temp.close();
+
+    const char * p = "aktywne_zdarzenia.txt"; // required conversion for remove and rename functions
+    remove(p);
+    rename("temp.txt", p);
+}
+
+// Funkcja wczytuje dane dotyczące bieżących zdarzeń
+void Centrala::wczytajAktywneZdarzenia() {
+
 }

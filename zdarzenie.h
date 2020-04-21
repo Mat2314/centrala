@@ -28,6 +28,8 @@ public:
     void dodajJednostke(Jednostka &J);
     string wypiszJednostki();
     vector<int> zwolnijJednostki();
+    vector<int> get_id_jednostek();
+    string zwrocWierszBazyDanych();
 };
 
 #endif
