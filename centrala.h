@@ -18,12 +18,13 @@ public:
 
     void pokazHistorie();
     void panelPrzydzialuJednostek(Zdarzenie &Z);
-    void przydziel_jednostke_do_zdarzenia(Jednostka jednostka, Zdarzenie &zdarzenie);
-    void odbior_jednostki_po_zdarzeniu(Jednostka jednostka);
+    void przydziel_jednostke_do_zdarzenia(Jednostka &jednostka, Zdarzenie &zdarzenie);
+    void odbior_jednostek_po_zdarzeniu(Zdarzenie &Z); 
     void pokazMenu();
     void dodajZdarzenie();
     void pokazAktualneZdarzenia();
     void pokazDostepneJednostki();
+    void wyswietlOdbiorJednostek();
 
 };
 

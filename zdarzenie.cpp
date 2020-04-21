@@ -1,12 +1,14 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "zdarzenie.h"
 #include "jednostka.h"
 
 using namespace std;
 
 // Konstruktor parametryczny
-Zdarzenie::Zdarzenie(int t) {
+Zdarzenie::Zdarzenie(int t, int _id) {
+    id = _id;
     if (t == 1) {
         typ = t;
         opis = "Zarejestrowano utonięcie";
@@ -24,15 +26,27 @@ Zdarzenie::Zdarzenie(int t) {
     }
 }
 
+// Funkcja zwracająca unikalne ID zdarzenia
+int Zdarzenie::get_id() {return id;}
+
 // Funkcja zwracająca typ wydarzenia
 int Zdarzenie::get_typ_zdarzenia() {return typ;}
-
-// Funkcja zwracająca dystans od centrali do miejsca zdarzenia
-int Zdarzenie::get_distance() {return dystans;}
 
 // Funkcja wypisuje opis danego zdarzenia
 void Zdarzenie::pokazOpis() {
     cout << opis << endl;
+}
+
+// Funkcja zwraca unikalne id jednostek biorących udział w zdarzeniu 
+vector<int> Zdarzenie::zwolnijJednostki() {
+    vector<int> zbior_id;
+
+    for(int i=0; i<jednostki.size(); i++) {
+        int id_jednostki = jednostki.at(i).get_id();
+        zbior_id.push_back(id_jednostki);
+    }
+
+    return zbior_id;
 }
 
 string Zdarzenie::get_opis() {
@@ -40,7 +54,7 @@ string Zdarzenie::get_opis() {
 }
 
 // Funkcja przypisuje jednostkę do zdarzenia
-void Zdarzenie::dodajJednostke(Jednostka J) {
+void Zdarzenie::dodajJednostke(Jednostka &J) {
     jednostki.push_back(J);
 }
 

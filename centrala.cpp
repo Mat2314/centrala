@@ -106,7 +106,9 @@ void Centrala::pokazMenu() {
     cout << "1. Pokaż historię" << endl;
     cout << "2. Dodaj zdarzenie" << endl;
     cout << "3. Pokaż dostępne jednostki" << endl;
-    cout << "4. Zakończ" << endl << endl;
+    cout << "4. Pokaż aktualne zdarzenia" << endl;
+    cout << "5. Odbiór jednostek" << endl;
+    cout << "6. Zakończ" << endl << endl;
 
     cout << "Twój wybór: ";
     cin >> wybor;
@@ -121,6 +123,12 @@ void Centrala::pokazMenu() {
         // Pokaż jednostki
         pokazDostepneJednostki();
     } else if (wybor == 4) {
+        // Pokaż aktualne zdarzenia
+        pokazAktualneZdarzenia();
+    } else if (wybor == 5) {
+        // Pokaż menu odbioru jednostek
+        wyswietlOdbiorJednostek();
+    } else if (wybor == 6) {
         // Zakończ
         exit(0);
     }
@@ -140,8 +148,43 @@ void Centrala::pokazHistorie() {
     }
 }
 
+void Centrala::wyswietlOdbiorJednostek() {
+    int id_zdarzenia;
+
+    cout << "---" << endl;
+    cout << "ODBIÓR JEDNOSTEK" << endl;
+    pokazAktualneZdarzenia();
+    cout << "Podaj ID zdarzenia z którego jednostki powróciły do bazy: ";
+    cin >> id_zdarzenia;
+
+    // Poszukaj wśród aktywnych zdarzeń
+    for(int i=0; i<zdarzenia.size(); i++) {
+        if(zdarzenia.at(i).get_id() == id_zdarzenia) {
+            //Zdarzenie *zakonczone = & zdarzenia.at(i);
+            //zakonczone->zwolnijJednostki();
+            odbior_jednostek_po_zdarzeniu(zdarzenia.at(i));
+            cout << "Jednostki powróciły do bazy" << endl;
+            zdarzenia.erase(zdarzenia.begin() + i);
+            break;
+        }
+    } 
+
+}
+
 // Funkcja potwierdzająca powrót jednostki do centrali
-void Centrala::odbior_jednostki_po_zdarzeniu(Jednostka jednostka) {
+void Centrala::odbior_jednostek_po_zdarzeniu(Zdarzenie &Z) {
+    // Weź id jednostek biorących udział w akcji
+    vector<int> id_jednostek;
+    id_jednostek = Z.zwolnijJednostki();
+
+    // Potwierdź powrót jednostek do bazy
+    for(int i=0; i<id_jednostek.size(); i++){
+        for(int j=0; j<jednostki.size(); j++) {
+            if(id_jednostek.at(i) == jednostki.at(j).get_id()) {
+                jednostki.at(j).powrotDoBazy();
+            }
+        }
+    }
 
 }
 
@@ -160,8 +203,8 @@ void Centrala::dodajZdarzenie() {
 
     // Utwórz zdarzenie
     if(wybor > 0 && wybor < 5) {
-        Zdarzenie z(wybor);
-        zdarzenia.push_back(z);
+        int index = zdarzenia.size();
+        Zdarzenie z(wybor, index);
         cout << "Dodano zdarzenie: ";
         z.pokazOpis();
         
@@ -178,23 +221,12 @@ void Centrala::dodajZdarzenie() {
             myfile << z.wypiszJednostki();
             myfile << "\n---\n";
             myfile.close();
-        }
-        
-
-        else {
+        } else {
             cout << "Unable to open file";
         }
+        zdarzenia.push_back(z);
     }
 
-}
-
-// Funkcja pokazująca aktualne zdarzenia
-void Centrala::pokazAktualneZdarzenia() {
-    cout << "Pokazywanie zdarzeń: " << endl;
-    for(int i=0; i<zdarzenia.size(); i++) {
-        Zdarzenie x = zdarzenia.at(i);
-        x.pokazOpis();
-    }
 }
 
 // Funkcja pokazuje dostepne jednostki
@@ -211,6 +243,18 @@ void Centrala::pokazDostepneJednostki() {
 }
 
 // Funkcja przydziela jednostkę do danego zdarzenia
-void Centrala::przydziel_jednostke_do_zdarzenia(Jednostka jednostka, Zdarzenie &zdarzenie) {
+void Centrala::przydziel_jednostke_do_zdarzenia(Jednostka &jednostka, Zdarzenie &zdarzenie) {
     zdarzenie.dodajJednostke(jednostka);
+}
+
+// Funkcja wyświetla aktualnie trwające zdarzenia
+void Centrala::pokazAktualneZdarzenia() {
+    cout << "---" << endl;
+    cout << "TRWAJĄCE ZDARZENIA" << endl;
+
+    for(int i=0; i<zdarzenia.size(); i++) {
+        cout << zdarzenia.at(i).get_opis() << "(ID: " << to_string(zdarzenia.at(i).get_id()) << ")" << endl;
+        cout << "Jednostki przypisane do wydarzenia: " << endl;
+        cout << zdarzenia.at(i).wypiszJednostki() << endl;
+    }
 }

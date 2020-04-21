@@ -17,6 +17,7 @@ public:
     Jednostka(){}
     Jednostka(int _id, string _typ, int _poziom, int _status); 
 
+    int get_id();
     string get_typ_jednostki();
     int get_status();
     int get_poziom();

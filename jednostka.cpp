@@ -11,6 +11,9 @@ Jednostka::Jednostka(int _id, string _typ, int _poziom, int _status) {
     status = _status;
 }
 
+// Funkcja zwraca id jednostki
+int Jednostka::get_id() {return id;}
+
 // Funkcja zwracająca typ jednostki
 string Jednostka::get_typ_jednostki() {return typ;}
 
