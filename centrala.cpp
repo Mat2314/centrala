@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <cstdlib>
+#include <sstream>
 #include "centrala.h"
 #include "zdarzenie.h"
 #include "jednostka.h"
@@ -304,7 +305,44 @@ void Centrala::usunAktywneZdarzenieZBazy(Zdarzenie &Z) {
     rename("temp.txt", p);
 }
 
+// Funkcja rozszyfrowuje zakodowane aktywne zdarzenia i zwraca je w wektorze
+vector<int> rozkodujDaneZBazy(string line) {
+    vector<int> rozkodowane;
+    stringstream ss(line);
+
+    for(int i; ss >> i;) {
+        rozkodowane.push_back(i);
+        if(ss.peek() == ';'){
+            ss.ignore();
+        }
+    }
+
+    return rozkodowane;
+}
+
 // Funkcja wczytuje dane dotyczące bieżących zdarzeń
 void Centrala::wczytajAktywneZdarzenia() {
+    string line;
+    string naglowek;
+    ifstream fin("aktywne_zdarzenia.txt");
+
+    getline(fin, naglowek); // Wczytaj sam nagłówek
+
+
+    while(getline(fin, line)) {
+        vector<int> dane;
+        dane = rozkodujDaneZBazy(line);
+
+        int id_zdarzenia = dane.at(0);
+        int typ_zdarzenia = dane.at(1);
+        Zdarzenie Z(typ_zdarzenia, id_zdarzenia);
+        zdarzenia.push_back(Z);
+
+        for(int i=2; i<dane.size(); i++) {
+            int id_jednostki = dane.at(i);
+            przydziel_jednostke_do_zdarzenia(jednostki.at(id_jednostki), zdarzenia.back());
+            jednostki.at(id_jednostki).wyruszajZBazy(); 
+        }
+    }
 
 }

@@ -8,6 +8,7 @@ using namespace std;
 
 int main() {
     Centrala *centrala = new Centrala();
+    centrala->wczytajAktywneZdarzenia();
     while(1) {
         centrala->pokazMenu();
     }
